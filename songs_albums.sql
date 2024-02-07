@@ -7,6 +7,13 @@
  * Note that album - song is a one-to-many relationship, so no bridge table is needed.
  */
 
+ CREATE TABLE Songs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(100) NOT NULL,
+    album_id INTEGER,
+    FOREIGN KEY(album_id) REFERENCES Albums(id)
+);
+
 CREATE TABLE Albums (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name VARCHAR(70) NOT NULL,
@@ -17,6 +24,16 @@ CREATE TABLE Albums (
 /* 
  * TODO: Insert at least 4 rows of data into the songs table. You can change up the albums as well. :)
  */
+
+INSERT INTO Songs
+    (name, album_id)
+VALUES
+    ('Time', 1),
+    ('Here Comes the Sun', 2),
+    ('Hotel California', 3),
+    ('Born in the U.S.A.', 4)
+;
+
  
 INSERT INTO Albums
     (name, artist, year_published)
@@ -38,20 +55,34 @@ VALUES
 -- SELECT * FROM Songs;
 
 SELECT * FROM Albums;
+SELECT * FROM Songs;
 
 /* 
  * TODO: Write a table join query to construct a table of Song Name : Album Name
  */
+SELECT Songs.name AS 'Song Name', Albums.name AS 'Album Name'
+FROM Songs
+JOIN Albums ON Songs.album_id = Albums.id;
 
 /*
  * TODO: Find all albums published between 1970 and 1980.
  */
+SELECT * FROM Albums
+WHERE year_published BETWEEN 1970 AND 1980;
 
 /*
  * TODO: Find all songs on albums published between 1970 and 1980. 
  *(Hint: Use a table join.)
  */
+SELECT Songs.name AS 'Song Name', Albums.name AS 'Album Name'
+FROM Songs
+JOIN Albums ON Songs.album_id = Albums.id
+WHERE Albums.year_published BETWEEN 1970 AND 1980;
  
 /*
  * TODO: Find all songs on albums with names containing 'California'.
  */
+SELECT Songs.name AS 'Song Name', Albums.name AS 'Album Name'
+FROM Songs
+JOIN Albums ON Songs.album_id = Albums.id
+WHERE Albums.name LIKE '%California%';
